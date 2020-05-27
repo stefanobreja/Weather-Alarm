@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Widget.Obi.Chip.Unselected" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipStartPadding">2dp</item>
+        <item name="chipEndPadding">2dp</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Obi.SmallChip</item>
+        <item name="chipIconVisible">true</item>
+        <item name="chipIconSize">10dp</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">#fff</item>
+        <item name="borderlessButtonStyle">@style/AlertDialogButtons</item>
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AlertDialogButtons" parent="@android:style/Widget.Holo.Button.Borderless">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+    <style name="TextAppearance.Obi.SmallChip" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextAppearance.Obi.Category" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Widget.Obi.Switch.Alarm" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/colorAccent</item>
+        <item name="android:trackTint" tools:targetApi="m">@android:color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    </style>
+
+
+    <style name="Widget.Obi.Chip.State" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:backgroundTint">@drawable/chip_state</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>

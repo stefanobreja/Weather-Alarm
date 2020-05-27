@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Weather Alarm</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="current_time">Current Time</string>
+    <string name="recent_alarms">Recent Alarms</string>
+    <string name="sunday">Sun</string>
+    <string name="saturday">Sat</string>
+    <string name="friday">Fri</string>
+    <string name="thursday">Thu</string>
+    <string name="wednesday">Wed</string>
+    <string name="tuesday">Tue</string>
+    <string name="monday">Mon</string>
+    <string name="enter_time">Enter time</string>
+    <string name="weather_alarm">Weather Alarm</string>
+    <string name="title">Title</string>
+    <string name="other">Other</string>
+    <string name="alarm_ringtone">Alarm Ringtone</string>
+    <string name="repeat_alarm">Repeat Alarm</string>
+    <string name="press_to_add_a_title">Press to add a title</string>
+    <string name="day_m">M</string>
+    <string name="day_t">T</string>
+    <string name="day_w">W</string>
+    <string name="day_th">Th</string>
+    <string name="day_f">F</string>
+    <string name="day_sa">Sa</string>
+    <string name="day_s">S</string>
+    <string name="no_alarms_set_yet">No alarms set yet</string>
+    <string name="add">Add</string>
+    <string name="cancel">cancel</string>
+    <string name="confirm">confirm</string>
+    <string name="time_format_hh_mm">%1$d:%2$d</string>
+    <string name="todo">TODO</string>
+    <string name="stop">Stop alarm</string>
+    <string name="alarm">07:00</string>
+    <string name="no_sound">No sound</string>
+    <string name="title_optional">Title (optional)</string>
+    <string name="select_alarm">Select Alarm</string>
+    <string name="ok">ok</string>
+    <string name="delete">delete</string>
+
+</resources>
