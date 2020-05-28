@@ -37,5 +37,6 @@
     <string name="select_alarm">Select Alarm</string>
     <string name="ok">ok</string>
     <string name="delete">delete</string>
+    <string name="update">update</string>
 
 </resources>

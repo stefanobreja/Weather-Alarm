@@ -88,7 +88,6 @@ class AlarmActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         if (alarm.isWeatherActive) {
-            textToSpeech.stop()
             textToSpeech.shutdown()
             this.finish()
         } else {
@@ -107,7 +106,6 @@ class AlarmActivity : AppCompatActivity() {
         })
         btnStopAlarm.setOnClickListener {
             if (alarm.isWeatherActive) {
-                textToSpeech.stop()
                 textToSpeech.shutdown()
                 this.finish()
             } else {

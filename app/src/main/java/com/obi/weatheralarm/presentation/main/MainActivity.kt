@@ -19,6 +19,7 @@ import com.obi.weatheralarm.R
 import com.obi.weatheralarm.databinding.ActivityMainBinding
 import com.obi.weatheralarm.domain.DeleteAlarmUseCase
 import com.obi.weatheralarm.domain.GetAllAlarmsUseCase
+import com.obi.weatheralarm.domain.UpdateAlarmUseCase
 import com.obi.weatheralarm.helpers.ALARM_JSON_EXTRA
 import com.obi.weatheralarm.helpers.PREFS_KEY
 import com.obi.weatheralarm.presentation.alarm.AlarmReceiver
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), AlarmListAdapter.AlarmClickInterface {
     private lateinit var prefs: SharedPreferences
     private val getAllAlarmsUseCase = GetAllAlarmsUseCase()
     private val deleteAlarmUseCase = DeleteAlarmUseCase()
+    private val updateAlarmUseCase = UpdateAlarmUseCase()
     private lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: AlarmListAdapter
 
@@ -53,14 +55,14 @@ class MainActivity : AppCompatActivity(), AlarmListAdapter.AlarmClickInterface {
         observeEvents()
 
         fab_add.setOnClickListener {
-            AlarmDialog(this, null) {
+            AlarmDialog(this, null, callbackAddOrUpdate = {
                 GlobalScope.launch {
                     setNewAlarm(it)
                     prefs.edit().putString(ALARM_JSON_EXTRA, Gson().toJson(it, Alarm::class.java))
                         .apply()
                     viewModel.alarmList.postValue(getAllAlarmsUseCase.invoke(this@MainActivity).alarm)
                 }
-            }
+            }, callbackDelete = {})
         }
     }
 
@@ -69,13 +71,16 @@ class MainActivity : AppCompatActivity(), AlarmListAdapter.AlarmClickInterface {
             if (it.isNullOrEmpty()) {
                 binding.ivAlarm.visibility = View.VISIBLE
                 binding.noAlarms.visibility = View.VISIBLE
+                listAdapter = AlarmListAdapter(this, emptyList(), this)
+                listAdapter.notifyDataSetChanged()
             } else {
                 binding.ivAlarm.visibility = View.GONE
                 binding.noAlarms.visibility = View.GONE
+                listAdapter = AlarmListAdapter(this, it, this)
+                binding.rvAlarms.adapter = listAdapter
+                listAdapter.notifyDataSetChanged()
             }
-            listAdapter = AlarmListAdapter(this, it, this)
-            binding.rvAlarms.adapter = listAdapter
-            listAdapter.notifyDataSetChanged()
+
         })
     }
 
@@ -139,13 +144,17 @@ class MainActivity : AppCompatActivity(), AlarmListAdapter.AlarmClickInterface {
     }
 
     override fun onAlarmClicked(alarm: Alarm) {
-        AlarmDialog(this, alarm) {
+        AlarmDialog(this, alarm, callbackAddOrUpdate = {
+            GlobalScope.launch {
+                setNewAlarm(alarm)
+                updateAlarmUseCase.invoke(activity = this@MainActivity, alarm = alarm)
+                viewModel.alarmList.postValue(getAllAlarmsUseCase.invoke(this@MainActivity).alarm)
+            }
+        }, callbackDelete = {
             GlobalScope.launch {
                 deleteAlarmUseCase.invoke(activity = this@MainActivity, alarm = alarm)
                 viewModel.alarmList.postValue(getAllAlarmsUseCase.invoke(this@MainActivity).alarm)
             }
-        }
+        })
     }
-
-
 }

@@ -3,6 +3,7 @@ package com.obi.weatheralarm.presentation.set_alarm
 import android.app.TimePickerDialog
 import android.media.AudioManager
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.chip.Chip
@@ -21,7 +22,8 @@ import java.util.*
 class AlarmDialog(
     private val activity: MainActivity,
     var alarm: Alarm?,
-    val callback: (alarmId: Alarm) -> Unit
+    val callbackAddOrUpdate: (alarmId: Alarm) -> Unit,
+    val callbackDelete: (alarmId: Alarm) -> Unit
 ) {
     private val view = activity.layoutInflater.inflate(R.layout.dialog_alarm, null)
 
@@ -80,11 +82,17 @@ class AlarmDialog(
             .setView(view)
             .setPositiveButton(
                 R.string.ok
-            ) { _, _ ->
+            ) { dialog, _ ->
                 GlobalScope.launch {
                     addNewAlarmUseCase.invoke(activity = activity, alarm = alarm!!)
-                    callback(alarm!!)
+                    callbackAddOrUpdate(alarm!!)
                 }
+                Toast.makeText(
+                    activity,
+                    "Alarm will ring at ${activity.getFormattedTime(alarm!!.timeInMilliseconds)}",
+                    Toast.LENGTH_LONG
+                ).show()
+                dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
@@ -101,6 +109,10 @@ class AlarmDialog(
             switchWeather.isChecked = alarm.isWeatherActive
             selectAlarm.text = alarm.soundTitle
             tvTitle.setText(alarm.name)
+
+            if (switchWeather.isChecked) {
+                selectAlarm.visibility = View.GONE
+            }
 
             tvAlarm.setOnClickListener {
                 TimePickerDialog(
@@ -141,14 +153,24 @@ class AlarmDialog(
         AlertDialog.Builder(activity)
             .setView(view)
             .setPositiveButton(
-                R.string.delete
-            ) { _, _ ->
+                R.string.update
+            ) { dialog, _ ->
                 GlobalScope.launch {
-                    callback(alarm)
+                    callbackAddOrUpdate(alarm)
                 }
+                Toast.makeText(
+                    activity,
+                    "Alarm will ring at ${activity.getFormattedTime(alarm!!.timeInMilliseconds)}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
+            .setNegativeButton(R.string.delete) { dialog, _ ->
+                callbackDelete(alarm)
+                Toast.makeText(
+                    activity,
+                    "Alarm deleted",
+                    Toast.LENGTH_LONG
+                ).show()
             }
             .show()
     }
